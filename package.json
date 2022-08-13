@@ -1,0 +1,23 @@
+{
+  "name": "csv-reader",
+  "version": "1.0.0",
+  "description": "This Project is based on csv reader",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "csv",
+    "reader"
+  ],
+  "author": "Amit Pandey",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.19"
+  }
+}
