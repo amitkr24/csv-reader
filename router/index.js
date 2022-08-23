@@ -3,8 +3,6 @@ const router          = express.Router();
 const multer          = require('multer');
 const path            = require('path');
 const db              = require('../config/mongoose');
-const LocalStorage    = require('node-localstorage').LocalStorage,
-localStorage          = new LocalStorage('./scratch');
 const fileModel       = require('../model/files');
 //controller
 const homeController  = require('../controller/home_controller');

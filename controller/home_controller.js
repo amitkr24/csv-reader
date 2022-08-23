@@ -1,34 +1,36 @@
 const csv             = require('csv-parser')
 const fs              = require('fs')
-const LocalStorage    = require('node-localstorage').LocalStorage,
-localStorage          = new LocalStorage('./scratch');
 const fileModel       = require('../model/files');
 const path            = require('path');
 module.exports.index  = async function(req, res){
-    const results         = [];
-    let id = req.params.id;
+    const results     = [];
+    let id = req.params.id;  
     try{
-        let files=await fileModel.find({}).sort("createdAt");
-        let active_file_name=await fileModel.findOne({id:id });
-        
+        let files=await fileModel.find({}).sort("createdAt");// find all files name for listing
+        let active_file_name= await fileModel.findById(id); // find current file name 
+        console.log(active_file_name);
         if(id && active_file_name != null){
-            console.log('testt');
+            // if id is set then only show the csv data
             var activeFile = active_file_name.name;
             let newPath =  path.join(__dirname, "../", 'uploads/'+activeFile);
-            console.log(newPath);
+             console.log(activeFile);
         }else{
-            console.log('else');
+            // if id is not presence simply return blank array
             let response =  {
                 "page": {},
                 "pageCount": {},
                 "results": [{}]
             };
-            res.render('../view/index',{result:response,fileData:files});
+            res.render('../view/index',{result:response,fileData:files,current:''});
             return;
         }
-        fs.createReadStream(newPath).pipe(csv())
+
+        // read csv data
+        fs.createReadStream('./uploads/'+activeFile).pipe(csv())
         .on('data', (data) => results.push(data))
         .on('end', () => {
+
+            // pass data as per pagination limit
             const pageCount = Math.ceil(results.length / 50);
             let page = parseInt(req.query.p);
             // console.log(page);
@@ -36,26 +38,28 @@ module.exports.index  = async function(req, res){
             if (page > pageCount) {
                 page = pageCount
             }
-
             let response =  {
                 "page": page,
                 "pageCount": pageCount,
                 "results": results.slice(page * 50 - 50, page * 50)
             };
-            res.render('../view/index',{result:response,fileData:files})
+            res.render('../view/index',{result:response,fileData:files,current:id})
         });
     }
     catch(err){
+        // if any error occur return message
         return res.status(500).json({
             message:'Internal Server Error'
         })
     }
 }
 module.exports.upload = function ( req, res ) {
+    // redirect back after uploading csv
     return res.redirect('back');
 }
 
 module.exports.deletecsv = function(req,res){
+    // to delete csv
     let tid = req.params.id;
     fileModel.findByIdAndDelete(tid, function(err){
         if(err){
@@ -63,5 +67,5 @@ module.exports.deletecsv = function(req,res){
             return;
         }
     });
-    return res.redirect('back');
+    return res.redirect('/');
  }

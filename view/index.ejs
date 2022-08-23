@@ -4,21 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--  css cdn link start -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-
-    <title>Document</title>
+      <style>
+        li.list-group-item.active {
+          background: #0a9729;
+        }
+        li.list-group-item.active a{
+          width: 98%;
+          text-decoration: none;
+          color: #ffffff !important;
+        }
+      </style>
+    <!--  title -->
+    <title>csv reader</title>
 </head>
 <body style="background: #e9e8e8;">
     <div class="container">
-
         <header class="page-header"><br>
+          <!-- page title -->
           <h4>CSV Reader</h4>
         </header>
         <div class="card">
-            <!-- <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
             <div class="card-body">
+              <!--  form to uplaod csv -->
                 <form method="post" action="/upload_files" enctype='multipart/form-data'>
                     <div class="row">
                       <div class="mb-3">
@@ -27,23 +38,24 @@
                       </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                  </form>
+                </form>
 
+                  <!-- container -->
                   <div class="container">
                     <br/>
                     <div class="row">
+                     <!--  listing all csv files -->
                       <div class="col-12 col-md-6">
                         <h6 class="text-muted">List Group</h6> 
                         <ul class="list-group">
-                        <% 
-                          
-                        let i=0;
-                        for(file of fileData){ %>
-                          <li class="list-group-item" style="display:flex;">
-                            <a href="/<%=file.id%>" style="width:98%;text-decoration: none;color: #212567;"><div class="pull-left"><%=file.name%></div></a>
-                            <div class="pull-right"><a href="/destroy/<%=file.id%>"><i class='fas fa-trash-alt' style='font-size:16px;color:red'></i></a></div>
-                          </li>
-                        <% i++; } %>
+                            <% let i=0;
+                              for(file of fileData){ %>
+                                <li class="list-group-item <%if(current==file.id){%><%='active'%> <%}%>" style="display:flex;">
+                                  <a href="/<%=file.id%>" style="width:98%;text-decoration: none;color: #212567;"><div class="pull-left"><%=file.name%></div></a>
+                                  <div class="pull-right"><a href="/destroy/<%=file.id%>"><i class='fas fa-trash-alt' style='font-size:16px;color:red'></i></a>
+                                  </div>
+                                </li>
+                            <% i++; } %>
                         </ul>
                       </div>
                     </div>
@@ -55,6 +67,7 @@
                     </div>
                   </div>
                   <div id="datatable">
+                    <!-- table to show data -->
                     <table class="table table-striped" id="table" width="100%" cellspacing="0">
                         <tbody>
                             <% flag = true;  %>
@@ -77,8 +90,10 @@
                             <%  } %>
                         </tbody>
                     </table>
+                    <!-- end table -->
                   </div>
                  
+                  <!-- pagination start -->
                   <ul class="pagination pagination-md" style="float:right;">
                     <% if(result.page>1){ %>
                     <li class="page-item"><a class="page-link" href="?p=<%=result.page - 1%>" aria-label="Previous">&laquo;</a></li>
@@ -89,15 +104,16 @@
                     <li class="page-item"><a class="page-link" href="?p=<%=result.page + 1%>" aria-label="Next">&raquo;</a></li>
                     <% } %>
                   </ul>
+                  <!-- pagination end -->
             </div>
-          </div>
-
+        </div>
       </div>
+    <!-- cdn script start-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    <!-- cdn script end-->
     <script>
-        //for searching a particular row ina table
+        //for searching a particular row in a table
         var $rows = $('#table tr');
         $('#search').keyup(function() {
             var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
