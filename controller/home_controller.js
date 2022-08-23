@@ -4,27 +4,29 @@ const LocalStorage    = require('node-localstorage').LocalStorage,
 localStorage          = new LocalStorage('./scratch');
 const fileModel       = require('../model/files');
 const path            = require('path');
-module.exports.index = async function(req, res){
+module.exports.index  = async function(req, res){
     const results         = [];
     let id = req.params.id;
     try{
         let files=await fileModel.find({}).sort("createdAt");
         let active_file_name=await fileModel.findOne({id:id });
-        console.log(active_file_name);
         
         if(id && active_file_name != null){
+            console.log('testt');
             var activeFile = active_file_name.name;
             let newPath =  path.join(__dirname, "../", 'uploads/'+activeFile);
+            console.log(newPath);
         }else{
+            console.log('else');
             let response =  {
                 "page": {},
                 "pageCount": {},
                 "results": [{}]
             };
-            res.render('../view/index',{result:response,fileData:files})
+            res.render('../view/index',{result:response,fileData:files});
+            return;
         }
-        fs.createReadStream(newPath)
-        .pipe(csv())
+        fs.createReadStream(newPath).pipe(csv())
         .on('data', (data) => results.push(data))
         .on('end', () => {
             const pageCount = Math.ceil(results.length / 50);
@@ -34,12 +36,12 @@ module.exports.index = async function(req, res){
             if (page > pageCount) {
                 page = pageCount
             }
+
             let response =  {
                 "page": page,
                 "pageCount": pageCount,
                 "results": results.slice(page * 50 - 50, page * 50)
             };
-
             res.render('../view/index',{result:response,fileData:files})
         });
     }
