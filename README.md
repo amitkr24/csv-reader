@@ -17,7 +17,7 @@ Created the application in which it can read the csv data and show csv data in h
 
 # How to Set up Project in Your Local server
 1st : You copy the git repositories link from my git <a href="https://github.com/amitkr24/csv-reader.git">account</a>.
-2nd : Open git bash and clone the project using (git clone)
+2nd : Open git bash and clone the project using (git clone) command
 3rd : Install all dependencies using (npm install) 
 4th : npm start
 
