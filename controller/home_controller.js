@@ -55,7 +55,7 @@ module.exports.index  = async function(req, res){
 }
 module.exports.upload = function ( req, res ) {
     // redirect back after uploading csv
-    return res.redirect('back');
+    return res.redirect('/');
 }
 
 // delete file
