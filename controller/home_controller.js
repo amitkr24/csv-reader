@@ -49,7 +49,7 @@ module.exports.index  = async function(req, res){
     catch(err){
         // if any error occur return message
         return res.status(500).json({
-            message:'Internal Server Error'
+            message:'Internal Server Errorsssssss'
         })
     }
 }
