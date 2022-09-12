@@ -16,6 +16,10 @@ var storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         // rename file name
+        if(file.mimetype !='text/csv'){
+            console.log('Enter Only Csv Files');
+            return;
+        }
         let file_name = path.parse(file.originalname).name;
         let fileName = file_name+ '-' + Date.now()+".csv"
         cb(null, fileName)

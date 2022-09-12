@@ -52,7 +52,10 @@
                               for(file of fileData){ %>
                                 <li class="list-group-item <%if(current==file.id){%><%='active'%> <%}%>" style="display:flex;">
                                   <a href="/<%=file.id%>" style="width:98%;text-decoration: none;color: #212567;"><div class="pull-left"><%=file.name%></div></a>
-                                  <div class="pull-right"><a href="/destroy/<%=file.id%>"><i class='fas fa-trash-alt' style='font-size:16px;color:red'></i></a>
+                                  <div class="pull-right"><a href="/destroy/<%=file.id%>" style="text-decoration: none;">
+                                    <!-- <i class='fas fa-trash-alt' style='font-size:16px;color:red'></i> -->
+                                    <span style='font-size:14px;background-color:red;color:#ffffff;padding: 1px 7px 1px 7px;border-radius: 12px;'>Delete</span>
+                                  </a>
                                   </div>
                                 </li>
                             <% i++; } %>
